@@ -1,35 +1,48 @@
-# Blue Team Introduction
-
-## Objective
-To understand the role of a Blue Team within a Security Operations Centre (SOC) and how defensive security protects organisations.
+# Blue Team Introduction Lab Report
 
 ## Overview
-This lab introduced the fundamentals of defensive cybersecurity. It explored how SOC teams monitor systems, detect threats, and respond to security incidents.
+This lab introduced the fundamentals of Blue Team operations in cybersecurity. Blue Teams are responsible for defending organisations against cyber threats by monitoring, detecting, and responding to security incidents.
 
-## Key Concepts Covered
-- Role of a SOC Analyst
-- Defensive vs Offensive Security
-- Monitoring and Alerting
-- Incident Response basics
+## Objectives
+- Understand the role of a Blue Team
+- Learn the difference between Blue Team and Red Team
+- Explore defensive security tools
+- Gain hands-on experience in monitoring and detection
 
-## Tools Referenced
-- SIEM platforms
-- Endpoint Detection & Response (EDR)
-- Log monitoring systems
+## Key Concepts Learned
 
-## My Approach
-1. Reviewed how a SOC is structured.
-2. Analysed how alerts are generated and triaged.
-3. Understood escalation procedures.
-4. Documented findings clearly.
+### 1. Blue Team Responsibilities
+Blue Teams focus on:
+- Threat detection
+- Incident response
+- Log analysis
+- Security monitoring
+- System hardening
 
-## Key Takeaways
-- SOC analysts play a critical role in early threat detection.
-- Alert prioritisation is essential.
-- Documentation is vital in incident response.
+### 2. Defensive Security Tools
+Some tools used by Blue Teams include:
+- SIEM (Security Information and Event Management)
+- IDS/IPS (Intrusion Detection/Prevention Systems)
+- Antivirus software
+- Firewalls
+- Endpoint Detection and Response (EDR)
 
-## Real-World Application
-This reflects how Tier 1 SOC Analysts monitor alerts and escalate potential threats in enterprise environments.
+### 3. Log Monitoring
+Logs are critical for detecting suspicious activity. Blue Teams analyse:
+- Authentication logs
+- Network traffic logs
+- Application logs
+- System event logs
 
-## Disclaimer
-This report is based on a simulated lab environment. No real organisational data is included.
+## Skills Gained
+- Understanding of defensive security principles
+- Basic log analysis techniques
+- Awareness of security monitoring tools
+- Incident detection fundamentals
+
+## Reflection
+This lab strengthened my understanding of how Blue Teams protect organisations from cyber threats. It highlighted the importance of continuous monitoring and proactive defense strategies in maintaining security posture.
+
+---
+
+*This lab was completed as part of my SOC Analyst learning journey.*
