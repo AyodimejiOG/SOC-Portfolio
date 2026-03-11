@@ -2,87 +2,78 @@
 
 ## Overview
 
-Privilege escalation is a common technique used by attackers after gaining initial access to a system. The goal is to move from a low-privileged user account to a more powerful account, often root, which allows full control over the system.
+Privilege escalation is a common technique used by attackers after gaining initial access to a system. By escalating privileges, an attacker can move from a low-privileged account to a root or administrative account, allowing them to take full control of the system.
 
-Detecting privilege escalation attempts is an important responsibility for SOC analysts because it often indicates that an attacker has already compromised a machine.
-
-This lab focused on identifying suspicious privilege escalation activity using Linux logs and system monitoring.
+In this lab, I investigated how privilege escalation attempts can be detected on Linux systems by analysing logs and monitoring user activity.
 
 ---
 
-## What is Privilege Escalation?
+## Initial Access Scenario
 
-Privilege escalation occurs when a user gains higher permissions than originally intended.
+Attackers often begin with limited user access obtained through stolen credentials, weak passwords, or exposed services such as SSH.
 
-Two common types include:
+Example login log:
 
-### Vertical Privilege Escalation
-A user gains higher permissions than their original account.
+Failed password for user john from 185.25.90.11 port 44522 ssh2
 
-Example:
-```
-user → root
-```
-
-### Horizontal Privilege Escalation
-A user accesses resources belonging to another user at the same privilege level.
+Multiple failed login attempts followed by a successful login can indicate credential brute-forcing or password guessing.
 
 ---
 
-## Monitoring sudo Usage
+## Indicators of Privilege Escalation
 
-One of the most common indicators of privilege escalation attempts is unusual use of the `sudo` command.
+After gaining access, attackers attempt to elevate privileges using various methods.
 
-Relevant log location:
+Common indicators include:
 
-```
-/var/log/auth.log
-```
+- Unexpected use of `sudo`
+- Execution of administrative commands by non-admin users
+- Creation of new privileged accounts
+- Access to sensitive system files
 
 Example log entry:
 
-```
-sudo: john : TTY=pts/0 ; COMMAND=/bin/bash
-```
+sudo: john : TTY=pts/1 ; COMMAND=/bin/bash
 
-This indicates that the user **john** executed a command with elevated privileges.
-
-Analysts should investigate when:
-
-- unexpected users run sudo commands
-- multiple sudo attempts occur
-- administrative commands run outside normal working hours
+This indicates that the user attempted to run a command with elevated privileges.
 
 ---
 
-## Suspicious Indicators
+## Investigating Suspicious Commands
 
-Possible indicators of privilege escalation include:
+Analysts should examine command history and authentication logs to determine whether privileged commands were legitimate.
 
-- multiple failed sudo attempts
-- execution of sensitive system commands
-- creation of new privileged accounts
-- modification of system files
+Commands often associated with privilege escalation include:
 
-Important files to monitor:
+- sudo su
+- chmod +s
+- modifying `/etc/sudoers`
+- accessing `/etc/shadow`
 
-```
-/etc/passwd
-/etc/shadow
-/etc/sudoers
-```
+These commands may allow attackers to gain permanent elevated access.
 
-Unauthorized changes to these files may indicate compromise.
+---
+
+## Detection Techniques
+
+SOC analysts detect privilege escalation by monitoring:
+
+- authentication logs
+- unusual sudo activity
+- abnormal command execution
+- changes to system permissions
+
+Security monitoring tools and SIEM platforms can generate alerts when privileged commands are executed unexpectedly.
 
 ---
 
 ## Analyst Takeaway
 
-Privilege escalation is a key stage in many attack chains. By monitoring authentication logs and administrative command usage, SOC analysts can identify suspicious activity early.
+Privilege escalation detection is critical in preventing attackers from gaining full control of systems.
 
-This lab improved my understanding of:
+Through this investigation I strengthened my ability to:
 
-- how privilege escalation appears in Linux logs
-- monitoring sudo activity
-- identifying suspicious administrative behaviour
-- recognising indicators of system compromise
+- analyse Linux authentication logs
+- identify suspicious sudo activity
+- recognise common privilege escalation techniques
+- understand attacker behaviour after initial compromise
