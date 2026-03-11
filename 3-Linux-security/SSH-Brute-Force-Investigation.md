@@ -2,76 +2,60 @@
 
 ## Overview
 
-Secure Shell (SSH) is widely used to remotely access Linux systems. Because of its importance in system administration, it is also a frequent target for attackers attempting to gain unauthorized access.
+Secure Shell (SSH) is widely used for remote administration of Linux systems. Because of its importance, attackers frequently target SSH services using brute force attacks in an attempt to guess valid credentials.
 
-One of the most common attack techniques against SSH services is a brute force attack, where attackers repeatedly attempt to guess login credentials.
-
-This lab focused on detecting SSH brute force attacks through log analysis.
+This lab focused on identifying SSH brute force activity using Linux authentication logs.
 
 ---
 
-## SSH Authentication Logs
+## Understanding Brute Force Attacks
 
-SSH activity is typically recorded in:
+A brute force attack involves repeatedly attempting different username and password combinations until valid credentials are discovered.
 
-```
-/var/log/auth.log
-```
-
-This log contains records of both successful and failed login attempts.
-
-Example failed login:
-
-```
-Failed password for invalid user admin from 192.168.1.50 port 43322 ssh2
-```
-
-Repeated entries like this often indicate automated attack attempts.
+These attacks often originate from automated scripts or botnets scanning large numbers of systems.
 
 ---
 
-## Indicators of Brute Force Attacks
+## Log Evidence
 
-SOC analysts should look for patterns such as:
+Authentication logs provide clear evidence of brute force attempts.
 
-- repeated login failures
-- attempts targeting multiple usernames
-- login attempts from unfamiliar IP addresses
-- high frequency of login attempts within a short time period
+Example log entries:
 
-Example pattern:
+Failed password for invalid user admin from 45.77.23.19 port 55212 ssh2  
+Failed password for invalid user admin from 45.77.23.19 port 55218 ssh2  
+Failed password for invalid user admin from 45.77.23.19 port 55221 ssh2
 
-```
-Failed password for root from 185.244.25.34
-Failed password for admin from 185.244.25.34
-Failed password for test from 185.244.25.34
-```
-
-This suggests an attacker trying different usernames.
+Repeated login attempts from the same IP address within a short time period strongly indicate automated credential attacks.
 
 ---
 
-## Successful Login After Failures
+## Investigative Approach
 
-A successful login following many failed attempts may indicate that an attacker successfully guessed the password.
+During the investigation I focused on identifying:
 
-Example:
+- the attacking IP address
+- the number of failed login attempts
+- targeted usernames
+- whether a successful login occurred
 
-```
-Accepted password for root from 185.244.25.34 port 50122 ssh2
-```
+Analysts must determine whether the attack resulted in account compromise.
 
-This should trigger immediate investigation.
+---
+
+## Defensive Measures
+
+Common defensive measures against SSH brute force attacks include:
+
+- implementing strong password policies
+- enabling multi-factor authentication
+- restricting SSH access using firewall rules
+- using intrusion prevention tools such as Fail2Ban
+
+These controls reduce the risk of successful credential attacks.
 
 ---
 
 ## Analyst Takeaway
 
-SSH brute force attacks are extremely common across internet-facing systems. Monitoring authentication logs allows SOC analysts to detect these attacks early.
-
-Through this lab I strengthened my ability to:
-
-- analyse SSH authentication logs
-- detect brute force patterns
-- investigate suspicious login behaviour
-- identify potential unauthorized access
+SSH brute force activity is one of the most common attack patterns observed on internet-facing systems. SOC analysts must be able to quickly recognise these patterns and determine whether a compromise has occurred.
